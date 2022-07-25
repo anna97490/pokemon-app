@@ -14,6 +14,7 @@ import { BorderCardDirective } from './border-card.directive';
     BrowserModule,
     AppRoutingModule
   ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
