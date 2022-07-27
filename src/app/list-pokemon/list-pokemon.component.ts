@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { POKEMONS } from '../mock-pokemon-list';
 import { Pokemon } from '../pokemon';
 
@@ -19,5 +20,11 @@ export class ListPokemonComponent {
       console.log(`Ce pokémon n'existe pas`);
       this.pokemonSelected = pokemon;
     }
+  }
+
+  constructor(private router: Router) {}
+
+  goToPokemon(pokemon: Pokemon) {
+    this.router.navigate(['/pokemon', pokemon.id]);
   }
 }
