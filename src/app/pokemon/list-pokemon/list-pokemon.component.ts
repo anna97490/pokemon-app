@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { POKEMONS } from '../mock-pokemon-list';
 import { Pokemon } from '../pokemon';
+import { PokemonService } from '../pokemon.service';
 
 @Component({
   selector: 'app-list-pokemon',
   templateUrl: './list-pokemon.component.html',
 })
-export class ListPokemonComponent {
-  pokemonList: Pokemon[] = POKEMONS;
+export class ListPokemonComponent implements OnInit {
+  pokemonList: Pokemon[] | undefined;
   pokemonSelected: Pokemon | undefined;
 
   selectPokemon(pokemonId: string) {
-    const pokemon: Pokemon | undefined = this.pokemonList.find(pokemon => pokemon.id == +pokemonId);
+    const pokemon: Pokemon | undefined = this.pokemonService.getPokemonById(+pokemonId);
     if(pokemon) {
       console.log(`Vous avez sélectionné ${pokemon.name}`);
       this.pokemonSelected = pokemon;
@@ -22,7 +22,13 @@ export class ListPokemonComponent {
     }
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+    private pokemonService: PokemonService
+  ) {}
+
+  ngOnInit() {
+    this.pokemonList = this.pokemonService.getPokemonList();
+  }
 
   goToPokemon(pokemon: Pokemon) {
     this.router.navigate(['/pokemon', pokemon.id]);
