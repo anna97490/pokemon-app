@@ -9,25 +9,15 @@ import { PokemonService } from '../pokemon.service';
 })
 export class ListPokemonComponent implements OnInit {
   pokemonList: Pokemon[] | undefined;
-  pokemonSelected: Pokemon | undefined;
 
-  selectPokemon(pokemonId: string) {
-    const pokemon: Pokemon | undefined = this.pokemonService.getPokemonById(+pokemonId);
-    if(pokemon) {
-      console.log(`Vous avez sélectionné ${pokemon.name}`);
-      this.pokemonSelected = pokemon;
-    } else {
-      console.log(`Ce pokémon n'existe pas`);
-      this.pokemonSelected = pokemon;
-    }
-  }
-
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private pokemonService: PokemonService
   ) {}
 
   ngOnInit() {
-    this.pokemonList = this.pokemonService.getPokemonList();
+    this.pokemonService.getPokemonList()
+      .subscribe(pokemonList => this.pokemonList = pokemonList);
   }
 
   goToPokemon(pokemon: Pokemon) {
